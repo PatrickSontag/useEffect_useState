@@ -50,6 +50,7 @@ function Game() {
     console.log("deckCards status", deckCards);
     console.log("next card", card);
     console.log("next card image", card.image)
+    console.log("card index", cardIndex);
   }
 
   const updateCard = () => {
@@ -64,7 +65,8 @@ function Game() {
         <button onClick={checkStatus}>Status</button>
         <button onClick={updateCard}>Update Card</button>
       </div>
-      {card ? <img src={card.image}/> : <div>no image</div>}
+      {card && <img src={card.image}/>}
+      {cardIndex === 53 && alert("No more cards!")}
       
     </div>
   );
