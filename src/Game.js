@@ -7,8 +7,10 @@ function Game() {
   const [ deckNumber, setDeckNumber ] = useState(null);
   const [ deckCards, setDeckCards ] = useState(null);
   const [ cardIndex, setCardIndex ] = useState(0);
-
+  const [ autoDraw, setAutoDraw ] = useState(false);
   const didMount = useRef(false);
+  const drawId = useRef();
+
 
   const baseCardsURL = "http://deckofcardsapi.com/api";
 
@@ -34,23 +36,29 @@ function Game() {
       console.log("didMount was false");
       didMount.current = true;
     }
-    
   }, [deckNumber])
 
-  // useEffect(() => {
-  //   async function updateCard() {
+  useEffect( function runAutoDraw() {
+    if ( autoDraw === true ) {
+      drawId.current = setInterval(() => {
+        console.log("interval");
+        updateCard();
+      }, 1000);
 
-  //     const cardRes = await axios.get(`${baseCardsURL}/deck/${this.deck}/draw/?count=1`)
-  //     setCard(cardRes.data.cards[0].image);
-  //  //    console.log("newCard", "card:", this.card, "cardImage", this.cardImage);
-  //   }
-  // }, []);
+      return function cleanUpClearInterval() {
+        console.log("clean up");
+        clearInterval(drawId.current);
+      };
+  }
+  }, [drawId, autoDraw]);
+
 
   const checkStatus = () => {
     console.log("deckCards status", deckCards);
     console.log("next card", card);
     console.log("next card image", card.image)
     console.log("card index", cardIndex);
+    console.log("autoDraw", autoDraw);
   }
 
   const updateCard = () => {
@@ -58,12 +66,16 @@ function Game() {
     setCardIndex(cardIndex + 1);
   }
 
+  const updateAutoDraw = () => {
+    setAutoDraw(!autoDraw);
+  }
+
   return (
     <div>
-      {/* onSubmit={updateCard} */}
       <div>
         <button onClick={checkStatus}>Status</button>
         <button onClick={updateCard}>Update Card</button>
+        <button onClick={updateAutoDraw}>Auto</button>
       </div>
       {card && <img src={card.image}/>}
       {cardIndex === 53 && alert("No more cards!")}
