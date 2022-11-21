@@ -10,7 +10,7 @@ function Game() {
   const [ cardIndex, setCardIndex ] = useState(0);
   const [ autoDraw, setAutoDraw ] = useState(false);
   const didMount = useRef(false);
-  const drawId = useRef();
+  const drawId = useRef(null);
 
 
   const baseCardsURL = "http://deckofcardsapi.com/api";
@@ -71,6 +71,13 @@ function Game() {
     setAutoDraw(!autoDraw);
   }
 
+  const endGame = () => {
+    // clearInterval(drawId.current);
+    // drawId.current = null;
+    autoDraw && setAutoDraw(!autoDraw);
+    alert("No more cards!");
+  }
+
   return (
     <div>
       <div>
@@ -79,8 +86,7 @@ function Game() {
         <button onClick={updateAutoDraw}>Auto</button>
       </div>
       {card && <Card cardImage={card.image}/>}
-      {/* {card && <img src={card.image}/>} */}
-      {cardIndex === 53 && alert("No more cards!")}
+      {cardIndex === 53 && endGame()}
       
     </div>
   );
