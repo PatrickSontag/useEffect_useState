@@ -1,4 +1,5 @@
 import './Game.css';
+import Card from './Card';
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
@@ -50,7 +51,7 @@ function Game() {
         clearInterval(drawId.current);
       };
   }
-  }, [drawId, autoDraw]);
+  }, [drawId, autoDraw, card]);
 
 
   const checkStatus = () => {
@@ -77,7 +78,7 @@ function Game() {
         <button onClick={updateCard}>Update Card</button>
         <button onClick={updateAutoDraw}>Auto</button>
       </div>
-      {card && <img src={card.image}/>}
+      {card && <Card cardImage={card.image}/>}
       {cardIndex === 53 && alert("No more cards!")}
       
     </div>
