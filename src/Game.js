@@ -79,6 +79,7 @@ function Game() {
         <button onClick={updateAutoDraw}>Auto</button>
       </div>
       {card && <Card cardImage={card.image}/>}
+      {/* {card && <img src={card.image}/>} */}
       {cardIndex === 53 && alert("No more cards!")}
       
     </div>
